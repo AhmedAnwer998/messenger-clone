@@ -1,0 +1,59 @@
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+.Chat-page{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100vh;
+  
+    border: 10px solid rebeccapurple;
+}
+
+.Chat-page img{
+    width: 100px;
+    height: 100px;
+}
+
+.logo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    z-index: 3;
+    background-color: gray;
+    
+}
+
+.input-form{
+    width: 100%;
+    padding: 10px;
+    flex: 1;
+
+}
+
+.messages{
+    margin-bottom: 20px;
+}
+
+.messages-container{
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 60px;
+}
