@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Button, FormControl, InputLabel, Input } from "@mui/material";
+import React, { useEffect, useRef, useState } from "react";
+import { Button, FormControl, Input } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import "./ChatPage.css";
 import Messages from "../Messages/Messages";
@@ -14,6 +14,7 @@ const ChatPage = () => {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
   const [username, setUsername] = useState("");
+  const messagesEndRef = useRef(null);
 
   const sendMessage = (event) => {
     event.preventDefault();
@@ -21,14 +22,17 @@ const ChatPage = () => {
       text: input,
       username: username,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    }).then(()=>{
+      setInput("");
+    scrollToBottom();
     });
-
-    setInput("");
   };
+
+
 
   useEffect(() => {
     db.collection("messages")
-    .orderBy('timestamp', 'desc')
+    .orderBy('timestamp', 'asc')
     .onSnapshot((snapshot) => {
       setMessages(snapshot.docs.map((doc) => ({id: doc.id, message: doc.data()})));
     });
@@ -37,6 +41,18 @@ const ChatPage = () => {
   useEffect(() => {
     setUsername(prompt("Enter ur User-Name"));
   }, []);
+
+
+  useEffect(()=>{
+
+    scrollToBottom();
+}, [messages]);
+
+
+
+  const scrollToBottom = () =>{
+    messagesEndRef.current?.scrollIntoView({behavior: "smooth"});
+  };
 
   return (
     <div className="Chat-page">
@@ -49,6 +65,8 @@ const ChatPage = () => {
       </div>
 
       <div className="messages-container">
+        <div ref={messagesEndRef} />
+
         <FlipMove>
           {messages.map(({ id, message }) => (
             <Messages
